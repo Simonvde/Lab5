@@ -1,6 +1,7 @@
 library(igraph)
 library(stats)
-
+library(plyr)
+library(xtable)
 
 # intro -------------------------------------------------------------------
 
@@ -88,17 +89,6 @@ communities.abstract <- list(edge.betweenness.community,
              infomap.community)
 
 
-communities <- lapply(communities.abstract,function(x) x(graph))
-output <- matrix(nrow=length(communities),ncol=4)
-for(i in 1:length(communities)){
-  output[i,1] <- metric(graph,communities[[i]],TPR)
-  output[i,2] <- metric(graph,communities[[i]],expansion)
-  output[i,3] <- metric(graph,communities[[i]],conductance)
-  output[i,4] <- modularity(communities[[i]])
-}
-output
-
-
 mydata <- read.table("~/Desktop/mydata.txt", quote="\"")
 mat <- as.matrix(mydata)
 
@@ -110,12 +100,61 @@ readGraph <- function(name){
   graph_from_adjacency_matrix(graphMatrix,mode=c("undirected"))
 }
 
-#HanoiTower(6,2) Is a graph of the states of the Hanoi Tower game with 6 pegs and 2 disks (A 6 copies of K6 which are sparsely connected between them)
-graph <- readGraph("HanoiTower62")
+#HanoiTower(6,2) Is a graph of the states of the Hanoi Tower game with 6 pegs and 2 disks (It can be seen as the cartesian product of C_6 and K_6, as such it has 36 vertices and 150  edges)
+HT <- readGraph("HanoiTower62")
+
+#DoubleStarSnark: a graph without triangles (30 vertices, 45 edges)
+dSS <- readGraph("doubleStarSnark")
+
+#DorovtsevGoltsevMendes3 Graph is a graph that can be created by starting with K_2 (an edge) and in every iteration changing every edge by a triangle, so for every edge adding one vertex and 2edges. This graph is obtained after 3 iterations and has 15 vertices and 27 edges
+DGM <- readGraph("dorovtsevGoltsevMendes3")
+
+#Friendshipgraph(12), or a windmill. Has 25 vertices and 36 edges.
+Friend <- readGraph("FriendshipGraph12")
+
+#A perfectly balanced tree with degree root 3 and height 3. Vertices: 40, edges: 39.
+Tree <- readGraph("BalancedTree33")
+
+#The complement of a perfectly balanced tree with degree root 3 and height 2. Vertices: 13, edges 66.
+CoTree <- readGraph("BalancedTree32Complement")
+
+graphs <- list(HT,dSS,DGM,Friend,Tree,CoTree)
+graphNames <- c("HanoiTower(6,2)","Double Star Snark", "DorovtsevGoltsevMendes3 Graph", "Friendship(12) Graph", "Balanced Tree(3,3)", "Complement of a Balanced Tree (3,2)")
+
+communitieList <- list()
+for(i in 1:length(graphs)){
+  communitieList[[i]] <- llply(communities.abstract,function(x) x(graphs[[i]]))
+}
+
+metricTable <- function(graph,communities){
+  output <- matrix(nrow=length(communities),ncol=4)
+  for(i in 1:length(communities)){
+    comi <- communities[[i]]
+    output[i,1] <- metric(graph,comi,TPR)
+    output[i,2] <- metric(graph,comi,expansion)
+    output[i,3] <- metric(graph,comi,conductance)
+    output[i,4] <- modularity(comi)
+  }
+  rownames(output) <- c("edge.betweenness","
+             fastgreedy","
+             label.propagation","
+             leading.eigenvector","
+             multilevel","
+             optimal","
+             spinglass","
+             walktrap","
+             infomap")
+  colnames(output) <- c("TPT","expansion","conductance","modularity")
+  output
+}
 
 
-lapply(communities,function(x) plot(x,graph))
-lapply(communities,sizes)
+
+
+for(i in 1:length(graphs)){
+  print(xtable(metricTable(graphs[[i]],communitieList[[i]]),digits=3,caption=paste("Metrics for",graphNames[i])))
+}
+
 
 # part 2: Wikipedia -------------------------------------------------------
 
