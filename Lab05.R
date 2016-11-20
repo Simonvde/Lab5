@@ -191,5 +191,9 @@ close(fileName)
 
 #Write some statistics after finished first part
 modularity(wiki.fg)
+metric(g,wiki.fg,expansion)
+metric(g,wiki.fg,conductance)
+metric(g,wiki.fg,TPR)
+
 membership(wiki.fg)
 sizes(wiki.fg)
