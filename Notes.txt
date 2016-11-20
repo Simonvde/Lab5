@@ -1,4 +1,0 @@
-My email address is jakubsalagovic@gmail.com
-
-I have done some work on my task, I will start writing report for this part.
-When you finish your part, I can run these metrics on this graph as well and analyze results.
