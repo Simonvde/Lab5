@@ -4,6 +4,11 @@ library(plyr)
 library(xtable)
 library(wordcloud)
 
+# intro
+
+karate <- graph.famous("Zachary")
+wc <- walktrap.community(karate)
+
 # part 1: ‘random’ graphs -------------------------------------------------
 TPR <- function(graph,subgraph,commun){
   sum(count_triangles(graph=subgraph,vids = V(subgraph))>0)/length(V(subgraph))
