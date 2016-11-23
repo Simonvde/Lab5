@@ -4,6 +4,8 @@ library(plyr)
 library(xtable)
 library(wordcloud)
 
+set.seed(1)
+
 # intro
 
 karate <- graph.famous("Zachary")
@@ -36,8 +38,6 @@ metric <- function(graph,community,FUN){
 }
 modularity(wc)
 
-conductance(karate,subgraph,wc[[4]])
-
 metric(karate,fastgreedy.community(karate),expansion)
 
 communities.abstract <- list(edge.betweenness.community,
@@ -63,25 +63,26 @@ readGraph <- function(name){
 }
 
 #HanoiTower(6,2) Is a graph of the states of the Hanoi Tower game with 6 pegs and 2 disks (It can be seen as the cartesian product of C_6 and K_6, as such it has 36 vertices and 150  edges)
-HT <- readGraph("HanoiTower62")
+hanoi <- readGraph("HanoiTower62")
 
 #DoubleStarSnark: a graph without triangles (30 vertices, 45 edges)
-dSS <- readGraph("doubleStarSnark")
+snark <- readGraph("doubleStarSnark")
 
 #DorovtsevGoltsevMendes3 Graph is a graph that can be created by starting with K_2 (an edge) and in every iteration changing every edge by a triangle, so for every edge adding one vertex and 2edges. This graph is obtained after 3 iterations and has 15 vertices and 27 edges
-DGM <- readGraph("dorovtsevGoltsevMendes3")
+dgm <- readGraph("dorovtsevGoltsevMendes3")
 
-#Friendshipgraph(12), or a windmill. Has 25 vertices and 36 edges.
-Friend <- readGraph("FriendshipGraph12")
+graphs <- list(hanoi,snark,dgm)
 
-#A perfectly balanced tree with degree root 3 and height 3. Vertices: 40, edges: 39.
-Tree <- readGraph("BalancedTree33")
+#Randomize graphs by rewiring 20% of edges.
+l_ply(1:length(graphs),function(i) graphs[[i]] <<- rewire(graphs[[i]],each_edge(p = .2, loops = FALSE,multiple=FALSE)))
 
-#The complement of a perfectly balanced tree with degree root 3 and height 2. Vertices: 13, edges 66.
-CoTree <- readGraph("BalancedTree32Complement")
+#Add Barabasi-Albert graph with 40 vertices
+graphs[[length(graphs)]] <- sample_pa(40)
 
-graphs <- list(HT,dSS,DGM,Friend,Tree,CoTree)
-graphNames <- c("HanoiTower(6,2)","Double Star Snark", "DorovtsevGoltsevMendes3 Graph", "Friendship(12) Graph", "Balanced Tree(3,3)", "Complement of a Balanced Tree (3,2)")
+#Add karate
+graphs[[length(graphs)]] <- karate
+
+graphNames <- c("HanoiTower(6,2)","Double Star Snark", "DorovtsevGoltsevMendes3 Graph", "Barabasi-Albert","Zachary's karate")
 
 communitieList <- list()
 for(i in 1:length(graphs)){
@@ -111,7 +112,9 @@ metricTable <- function(graph,communities){
 }
 
 
-
+comm <- llply(communities.abstract,function(x) x(g))
+metricTable(g,comm)
+l_ply(comm,function(x) plot(x,g))
 
 for(i in 1:length(graphs)){
   print(xtable(metricTable(graphs[[i]],communitieList[[i]]),digits=3,caption=paste("Metrics for",graphNames[i])))
