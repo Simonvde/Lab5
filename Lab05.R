@@ -4,7 +4,7 @@ library(plyr)
 library(xtable)
 library(wordcloud)
 
-set.seed(1)
+set.seed(2)
 
 # intro
 
@@ -63,7 +63,7 @@ readGraph <- function(name){
 }
 
 #HanoiTower(6,2) Is a graph of the states of the Hanoi Tower game with 6 pegs and 2 disks (It can be seen as the cartesian product of C_6 and K_6, as such it has 36 vertices and 150  edges)
-hanoi <- readGraph("HanoiTower62")
+hanoi <- readGraph("HanoiTower52")
 
 #DoubleStarSnark: a graph without triangles (30 vertices, 45 edges)
 snark <- readGraph("doubleStarSnark")
@@ -74,15 +74,17 @@ dgm <- readGraph("dorovtsevGoltsevMendes3")
 graphs <- list(hanoi,snark,dgm)
 
 #Randomize graphs by rewiring 20% of edges.
-l_ply(1:length(graphs),function(i) graphs[[i]] <<- rewire(graphs[[i]],each_edge(p = .2, loops = FALSE,multiple=FALSE)))
+#l_ply(1:length(graphs),function(i) graphs[[i]] <<- rewire(graphs[[i]],each_edge(p = .15, loops = FALSE,multiple=FALSE)))
 
 #Add Barabasi-Albert graph with 40 vertices
-graphs[[length(graphs)]] <- sample_pa(40)
+graphs[[length(graphs)+1]] <- as.undirected(sample_pa(40))
 
 #Add karate
-graphs[[length(graphs)]] <- karate
+graphs[[length(graphs)+1]] <- karate
 
-graphNames <- c("HanoiTower(6,2)","Double Star Snark", "DorovtsevGoltsevMendes3 Graph", "Barabasi-Albert","Zachary's karate")
+graphNames <- c("HanoiTower(5,2)","Double Star Snark", "DorovtsevGoltsevMendes3 Graph", "Barabasi-Albert","Zachary's karate")
+
+graphs
 
 communitieList <- list()
 for(i in 1:length(graphs)){
@@ -112,14 +114,14 @@ metricTable <- function(graph,communities){
 }
 
 
-comm <- llply(communities.abstract,function(x) x(g))
-metricTable(g,comm)
-l_ply(comm,function(x) plot(x,g))
-
 for(i in 1:length(graphs)){
   print(xtable(metricTable(graphs[[i]],communitieList[[i]]),digits=3,caption=paste("Metrics for",graphNames[i])))
 }
 
+#plot all communities for 1 graph
+graphNumber <- 2
+l_ply(communitieList[[graphNumber]],function(comm) plot(comm,graphs[[graphNumber]]))
+llply(communitieList[[graphNumber]],sizes)
 
 # part 2: Wikipedia -------------------------------------------------------
 #Loading
@@ -166,7 +168,7 @@ get.freq <- function(x){
 
 first.x.words(50,50)
 
-#Ploting the neighbors of vertices with degree 20 (20 is number selected for this example)
+#Plotting the neighbors of vertices with degree 20 (20 is number selected for this example)
 sample <- V(g)[degree(g)==20]
 mypath <- file.path(paste(getwd(),"/NeighborsOf20.pdf", sep = ""))
 pdf(file=mypath)
