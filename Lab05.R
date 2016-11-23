@@ -140,9 +140,9 @@ wiki.fg <- fastgreedy.community(g)
 
 #Function for writing first x frequent words for every cluster that has at least y number of members
 first.x.words <- function(x, y){
-  cat(1:x, "\n", sep = "\t", file = "Names.txt")
-  fileName <- file("Names.txt", open = "a")
-  mypath <- file.path(paste(getwd(),"/TextClouds.pdf", sep = ""))
+  cat(1:x, "\n", sep = "\t", file = "WikiTitleCommunities.txt")
+  fileName <- file("WikiTitleCommunities.txt", open = "a")
+  mypath <- file.path(paste(getwd(),"/WikiTextClouds.pdf", sep = ""))
   pdf(file=mypath)
 
   for(i in 1:length(sizes(wiki.fg)))
@@ -170,7 +170,7 @@ first.x.words(50,50)
 
 #Plotting the neighbors of vertices with degree 20 (20 is number selected for this example)
 sample <- V(g)[degree(g)==20]
-mypath <- file.path(paste(getwd(),"/NeighborsOf20.pdf", sep = ""))
+mypath <- file.path(paste(getwd(),"/WikiNeighboursOf20.pdf", sep = ""))
 pdf(file=mypath)
 for(i in 1:length(sample))
 {
@@ -183,8 +183,8 @@ for(i in 1:length(sample))
 dev.off()
 
 #Writing all neighbours that are different that selected vertex (iterates throught all vertices)
-cat("Vertex", "Neighbours in different cluster", "\n", sep = "\t", file = "Differences.txt")
-fileName <- file("Differences.txt", open = "a")
+cat("Vertex", "Neighbours in different communities", "\n", sep = "\t", file = "WikiDifferentNeighbours.txt")
+fileName <- file("WikiDifferentNeighbours.txt", open = "a")
 for(i in 1:length(V(g)))
 {
   n <- neighbors(g,V(g)[i])
