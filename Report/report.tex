@@ -94,7 +94,7 @@
 %----------------------------------------------------------------------------------------
 
 \section{Introduction}
-This report exists of $2$ parts. In the first part we will compare some of igraph's community-finding algorithms on specifically chosen graphs, using the metrics: Triangle Partition Ratio (high is best), expansion (low is best), conductance (low is best) and modularity (high is best). In the second part we will analyse if it makes sense to use fast-greedy community detection algorithm of provided Wikipedia network. 
+This report consists of $2$ parts. In the first part we will compare some of igraph's community-finding algorithms on specifically chosen graphs, using the metrics: Triangle Partition Ratio (high is best), expansion (low is best), conductance (low is best) and modularity (high is best). In the second part we will analyse if it makes sense to use fast-greedy community detection algorithm of provided Wikipedia network. 
 \section{Task 1 -- Comparison of community-finding algorithms}
 \subsection{Results}
 % latex table generated in R 3.1.2 by xtable 1.8-2 package
@@ -290,7 +290,7 @@ This graph has as nodes the game states of Hanoi Tower game with $5$ pegs and $2
 
 \section{Task 2 - Wikipedia}
 
-For the task the we have chosen to use fast-greedy algorithm for community detection of this given network. Then we computed metrics discussed in the previous part, the results are as follows: modularity = $0.745$, expansion = $2.9$, conductance = $0.368$, TPR = $0.46$ (all values have been rounded to three decimal places). We can argue that modularity in this case is relatively high, which points to good division into communities. On the other hand, we have $2.9$ edges per node leaving community which can be either high or normal value for good division. It depends on a lot of factors, for example average number of edges per node and so on. Conductance, which is fraction of total edge volume that points outside community, with value $0.368$ can be higher that one expect for good division into communities, but it still does not mean there is just one clear interpretation of this value. The same situation is also with triangle partition ration.
+For the task the we have chosen to use fast-greedy algorithm for community detection of this given network. Then we computed metrics discussed in the previous part, the results are as follows: modularity = $0.745$, expansion = $2.9$, conductance = $0.368$, TPR = $0.46$ (all values have been rounded to three decimal places). We can argue that modularity in this case is relatively high, which points to good division into communities. On the other hand, we have $2.9$ edges per node leaving community which can be either high or normal value for good division. It depends on a lot of factors, for example average number of edges per node and so on. Conductance, which is fraction of total edge volume that points outside community, with value $0.368$ can be higher that one expect for good division into communities, but it still does not mean the division into communities is not good. The same situation is also with triangle partition ratio.
 
 Therefore we have needed to look if the dividing into communities make sense by different way. We have used three different approaches, each of them is presented below.
 
