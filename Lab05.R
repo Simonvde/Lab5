@@ -11,7 +11,7 @@ set.seed(2)
 karate <- graph.famous("Zachary")
 wc <- walktrap.community(karate)
 
-# part 1: â€˜randomâ€™ graphs -------------------------------------------------
+# part 1: ‘random’ graphs -------------------------------------------------
 TPR <- function(graph,subgraph,commun){
   sum(count_triangles(graph=subgraph,vids = V(subgraph))>0)/length(V(subgraph))
 }
@@ -41,14 +41,14 @@ modularity(wc)
 metric(karate,fastgreedy.community(karate),expansion)
 
 communities.abstract <- list(edge.betweenness.community,
-             fastgreedy.community,
-             label.propagation.community,
-             leading.eigenvector.community,
-             multilevel.community,
-             optimal.community,
-             spinglass.community,
-             walktrap.community,
-             infomap.community)
+                             fastgreedy.community,
+                             label.propagation.community,
+                             leading.eigenvector.community,
+                             multilevel.community,
+                             optimal.community,
+                             spinglass.community,
+                             walktrap.community,
+                             infomap.community)
 
 
 mydata <- read.table("~/Desktop/mydata.txt", quote="\"")
@@ -101,14 +101,14 @@ metricTable <- function(graph,communities){
     output[i,4] <- modularity(comi)
   }
   rownames(output) <- c("edge.betweenness","
-             fastgreedy","
-             label.propagation","
-             leading.eigenvector","
-             multilevel","
-             optimal","
-             spinglass","
-             walktrap","
-             infomap")
+                        fastgreedy","
+                        label.propagation","
+                        leading.eigenvector","
+                        multilevel","
+                        optimal","
+                        spinglass","
+                        walktrap","
+                        infomap")
   colnames(output) <- c("TPT","expansion","conductance","modularity")
   output
 }
@@ -132,8 +132,8 @@ g <- as.undirected(wiki, mode = "collapse")
 summary(wiki)
 
 #Information about labels and IDs
-vlabel <- vertex_attr(wiki, "label")
-vid <- vertex_attr(wiki, "wikiid")
+vlabel <- vertex_attr(g, "label")
+vid <- vertex_attr(g, "wikiid")
 
 #Clustering
 wiki.fg <- fastgreedy.community(g)
@@ -144,7 +144,7 @@ first.x.words <- function(x, y){
   fileName <- file("WikiTitleCommunities.txt", open = "a")
   mypath <- file.path(paste(getwd(),"/WikiTextClouds.pdf", sep = ""))
   pdf(file=mypath)
-
+  
   for(i in 1:length(sizes(wiki.fg)))
   {
     if(sizes(wiki.fg)[i]>=x)
