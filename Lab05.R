@@ -11,7 +11,7 @@ set.seed(2)
 karate <- graph.famous("Zachary")
 wc <- walktrap.community(karate)
 
-# part 1: ‘random’ graphs -------------------------------------------------
+# part 1: Comparison of community-finding algorithms ---------------------------------------
 TPR <- function(graph,subgraph,commun){
   sum(count_triangles(graph=subgraph,vids = V(subgraph))>0)/length(V(subgraph))
 }
@@ -32,11 +32,9 @@ metric <- function(graph,community,FUN){
   for(i in 1:length(community)){
     subgraph <- induced_subgraph(graph=graph,v=community[[i]])
     result = result + length(V(subgraph))/length(V(graph))*FUN(graph,subgraph,community[[i]])
-    #print(FUN(graph,subgraph,community[[i]]))
   }
   result
 }
-modularity(wc)
 
 metric(karate,fastgreedy.community(karate),expansion)
 
@@ -73,9 +71,6 @@ dgm <- readGraph("dorovtsevGoltsevMendes3")
 
 graphs <- list(hanoi,snark,dgm)
 
-#Randomize graphs by rewiring 20% of edges.
-#l_ply(1:length(graphs),function(i) graphs[[i]] <<- rewire(graphs[[i]],each_edge(p = .15, loops = FALSE,multiple=FALSE)))
-
 #Add Barabasi-Albert graph with 40 vertices
 graphs[[length(graphs)+1]] <- as.undirected(sample_pa(40))
 
@@ -83,8 +78,6 @@ graphs[[length(graphs)+1]] <- as.undirected(sample_pa(40))
 graphs[[length(graphs)+1]] <- karate
 
 graphNames <- c("HanoiTower(5,2)","Double Star Snark", "DorovtsevGoltsevMendes3 Graph", "Barabasi-Albert","Zachary's karate")
-
-graphs
 
 communitieList <- list()
 for(i in 1:length(graphs)){
@@ -118,7 +111,7 @@ for(i in 1:length(graphs)){
   print(xtable(metricTable(graphs[[i]],communitieList[[i]]),digits=3,caption=paste("Metrics for",graphNames[i])))
 }
 
-#plot all communities for 1 graph
+#plot all communities for 1 graph and also give all community sizes.
 graphNumber <- 2
 l_ply(communitieList[[graphNumber]],function(comm) plot(comm,graphs[[graphNumber]]))
 llply(communitieList[[graphNumber]],sizes)
