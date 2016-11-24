@@ -243,6 +243,27 @@ edge.betweenness & 0.794 & 3.000 & 0.497 & 0.401 \\
 \caption{Metrics for Zachary's Karate network (ZK)} 
 \end{table}
 
+
+\begin{figure}[htbp]
+   \centering
+   \includegraphics{ht} % requires the graphicx package
+   \caption{The Hanoi Tower graph with $5$ pegs and $2$ discs. The labels on the vertices indicate the positions of the two discs ($(1,3)$ means: peg $1$ on disk $1$, peg $2$ on disc $2$)}
+   \label{ht}
+\end{figure}
+\begin{figure}[htbp]
+   \centering
+   \includegraphics{dss} % requires the graphicx package
+   \caption{The double star snark}
+   \label{dss}
+\end{figure}
+
+\begin{figure}[htbp]
+   \centering
+   \includegraphics{dgm} % requires the graphicx package
+   \caption{The Dorovstev-Goltsev-Mendes graph after $3$ iterations}
+   \label{dgm}
+\end{figure}
+
 \newpage
 
 \subsection{Discussion}
@@ -268,36 +289,16 @@ This graph has as nodes the game states of Hanoi Tower game with $5$ pegs and $2
 %\paragraph{Randomization}
 %For the standard graphs we chose (Hanoi Tower, double star snark and the Dorovstev-Goltsev-Mendes graph), we got counterintuitive results for our metrics. Because these graphs have many automorfisms and this is not so realistic, we randomised these networks. To do so, we rewired $15\%$ of all edges of these graphs.
 
-\begin{figure}[htbp]
-   \centering
-   \includegraphics{ht} % requires the graphicx package
-   \caption{The Hanoi Tower graph with $5$ pegs and $2$ discs. The labels on the vertices indicate the positions of the two discs ($(1,3)$ means: peg $1$ on disk $1$, peg $2$ on disc $2$)}
-   \label{ht}
-\end{figure}
-\begin{figure}[htbp]
-   \centering
-   \includegraphics{dss} % requires the graphicx package
-   \caption{The double star snark}
-   \label{dss}
-\end{figure}
-
-\begin{figure}[htbp]
-   \centering
-   \includegraphics{dgm} % requires the graphicx package
-   \caption{The Dorovstev-Goltsev-Mendes graph after $3$ iterations}
-   \label{dgm}
-\end{figure}
-
 \section{Task 2 - Wikipedia}
 
-For the task the we have chosen to use fast-greedy algorithm for community detection of this given network. Then we computed metrics discussed in the previous part, the results are as follows: modularity = $0.745$, expansion = $2.9$, conductance = $0.368$, TPR = $0.46$ (all values have been rounded to three decimal places). We can argue that modularity in this case is relatively high, which points to good division into communities. On the other hand, we have $2.9$ edges per node leaving community which can be either high or normal value for good division. It depends on a lot of factors, for example average number of edges per node and so on. Conductance, which is fraction of total edge volume that points outside community, with value $0.368$ can be higher that one expect for good division into communities, but it still does not mean the division into communities is not good. The same situation is also with triangle partition ratio.
+For the task we have chosen to use the fast-greedy algorithm for community detection of this given network. Then we computed the metrics discussed in the previous part, the results are as follows: modularity = $0.745$, expansion = $2.9$, conductance = $0.368$, TPR = $0.46$ (all values have been rounded to three decimal places). We can argue that modularity in this case is relatively high, which points to good division into communities. On the other hand, we have $2.9$ edges per node leaving community which can be either a high or a normal value for good division. This depends on a lot of factors, for example average number of edges per node and so on. Conductance, which is fraction of total edge volume that points outside community, with value $0.368$ can be higher than one expects for good division into communities, but it still does not mean the division into communities is not good. The same is valid for the triangle partition ratio.
 
-Therefore we have needed to look if the dividing into communities make sense by different way. We have used three different approaches, each of them is presented below.
+Therefore we had to look if the dividing into communities made sense in different ways. We have used three different approaches, each of them is presented below.
 
 \subsection{Titles of each community}
-The first approach is to look at titles (vertices) in communities and decide if it make sense to have them in one community (if we can find some common topic of other connection by meaning by titles in one community). Note that for this type of analysis one need to have some background knowledge in analysed terms. Therefore we skipped cases with terms we were not familiar with and for examples stated in this text we have selected the simple ones. Also it is impossible to manually analyse all communities, so we decided to look just for biggest and analyse first $n$ titles. The result for communities containing at least 50 titles can be found in the file \textit{WikiTitleCommunities.txt} attached to this document. 
+The first approach is to look at titles (vertices) in communities and decide if it makes sense to have them in one community (if we can find some common topic of other connection by meaning by titles in one community). Note that for this type of analysis one needs to have some background knowledge in the analysed terms. Therefore we skipped cases with terms we were not familiar with and, for example stated in this text, we have selected the simple ones. Also it is impossible to manually analyse all communities, so we decided to look just for biggest and analyse the first $n$ titles. The result for communities containing at least 50 titles can be found in the file \textit{WikiTitleCommunities.txt} attached to this document. 
 
-For better visualisation and getting general view we decided to plot these results as text clouds. Every text cloud contains 50 selected titles from communities that contain at least 50 titles. The size of each title depends on the number of vertices the corresponding vertex is connected to. The text cloud for sample of 50 titles of the biggest community is displayed in the Fig.~\ref{TextCloud1}. We can say that almost all titles seems to be more or less related. Generally speaking, it looks like for each of the plotted text clouds we can find common topic or category to which they belong. All word clouds can be found in file \textit{WikiTextClouds.pdf} attached to this document.
+For better visualisation and getting general view we decided to plot these results as text clouds. Every text cloud contains 50 selected titles from communities that contain at least 50 titles. The size of each title depends on the number of vertices the corresponding vertex is connected to. The text cloud for a sample of 50 titles of the biggest community is displayed in the Fig.~\ref{TextCloud1}. We can say that almost all titles seem to be more or less related. Generally speaking, it looks like for each of the plotted text clouds we can find a common topic or category to which they belong. All word clouds can be found in file \textit{WikiTextClouds.pdf} attached to this document.
 
 \begin{figure}[H]
 	\centering
@@ -306,7 +307,7 @@ For better visualisation and getting general view we decided to plot these resul
 	\label{TextCloud1}
 \end{figure}
 
-It is normal that there are cases when some titles looks completely unrelated to community they were assigned to. For example in Fig.~\ref{TextCloud8} we can see that titles look to be number related. But for example titles \textit{French punk} and \textit{Statue of Liberty Bike} clearly does not belongs to this category. Therefore we explored this whole community and have found that apart the \textit{number-related} articles there are smaller group of \textit{motorbike} and \textit{punk} related articles. It is normal that we do not get perfect communities, but results looks that in general make some sense. Apart the algorithm one can also question connections made by authors and editors of articles.
+It is normal that there are cases when some titles looks completely unrelated to the community they were assigned to. For example in Fig.~\ref{TextCloud8} we can see that titles seem to be number related. But for example titles \textit{French punk} and \textit{Statue of Liberty Bike} clearly don't belong to this category. Therefore we explored this whole community and have found that apart of the \textit{number-related} articles there are smaller groups of \textit{motorbike} and \textit{punk} related articles. It is normal that we do not get perfect communities, but the results in general make some sense. Aside of the algorithm one can also question connections made by authors and editors of articles.
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.75,keepaspectratio]{TextCloud8}
@@ -315,9 +316,9 @@ It is normal that there are cases when some titles looks completely unrelated to
 \end{figure}
 
 \subsection{Membership of neighbours}
-The next approach is to look at the all neighbours of selected vertex and analyse if all of them are in community that makes sense regarding to the selected vertex and his community. For each vertex we plotted this sub-graph displaying corresponding communities in one figure. To make it easy to analyse we decided to use star layout with the corresponding vertex in the middle and its neighbours around. For the reasons mentioned earlier it is impossible to analyse results for all vertices, so we decided to plot just vertices that has 20 neighbours. The 20 neighbours are value large enough to find some general behaviour but it is still easy to visualise and analyse. All graphs for vertices with number of neighbours equal to 20 can be found in file \textit{WikiNeighboursOf20.pdf} attached to this document.
+The next approach is to look at all neighbours of a selected vertex and analyse if all of them are in a community that makes sense regarding to the selected vertex and his community. For each vertex we plotted this subgraph displaying corresponding communities in one figure. To make it easy to analyse we decided to use a star layout with the corresponding vertex in the middle and its neighbours around it. For the reasons mentioned earlier it is impossible to analyse results for all vertices, so we decided to plot just the vertices that have 20 neighbours. The 20 neighbours is a value large enough to find some general behaviour, but it is still easy to visualise and analyse. All graphs for vertices with number of neighbours equal to 20 can be found in file \textit{WikiNeighboursOf20.pdf} attached to this document.
 
-In the Fig.~\ref{Neighbours60} we have central node with title \textit{Strictly non palindromic number}. Most of its neighbour are numbers, assigned to same community as central vertex. As we can see, only title \textit{List of mathematics articles (S)} is in other community as central vertex, which in this case makes sense. Also membership of other titles looks as correct, the only questionable thing is membership of title \textit{Quaternary numeral system}.
+In the Fig.~\ref{Neighbours60} we have a central node with title \textit{Strictly non palindromic number}. Most of its neighbour are numbers, assigned to same community as central vertex. As we can see, only the title \textit{List of mathematics articles (S)} is in another community as a central vertex, which in this case makes sense. Also the membership of other titles looks correct, the only questionable thing is membership of title \textit{Quaternary numeral system}.
 
 \begin{figure}
 	\centering
@@ -326,7 +327,7 @@ In the Fig.~\ref{Neighbours60} we have central node with title \textit{Strictly 
 	\label{Neighbours60}
 \end{figure}
 
-Fig.~\ref{Neighbours65} perfectly represents situation when the title can be related to more fields. In this example the central vertex \textit{Conjugation} have several meanings in fields such as linguistic, mathematics, biology, chemistry...\footnote{https://en.wikipedia.org/wiki/Conjugation} Most of them are also present in our plot and their division into communities looks reasonable. The green node belongs to linguistics, blue ones to mathematics, and the orange ones to chemistry/biology. This particular case will increase the value of metrics \textit{expansion}, but the division into communities seems logical. This probably happens with all titles that has more than one meaning or are not field specific and therefore could have connection to wide spectrum of other titles. For example almost in every article on Wikipedia we can find some number and therefore make a connection to it -- the question is if it makes sense.
+Fig.~\ref{Neighbours65} perfectly represents the situation when a title can be related to more fields. In this example the central vertex \textit{Conjugation} has several meanings in fields such as linguistics, mathematics, biology, chemistry...\footnote{https://en.wikipedia.org/wiki/Conjugation} Most of them are also present in our plot and their division into communities looks reasonable. The green node belongs to linguistics, blue ones to mathematics, and the orange ones to chemistry/biology. This particular case will increase the value of the \textit{expansion}-metric, but the division into communities seems logical. This probably happens with all titles that have more than one meaning or are not field specific and therefore could have a connection to a wide spectrum of other titles. For example, almost in every article on Wikipedia we can find some number and therefore make a connection to it. The question is wether this makes sense for a community-structure.
 
 \begin{figure}
 	\centering
@@ -335,21 +336,21 @@ Fig.~\ref{Neighbours65} perfectly represents situation when the title can be rel
 	\label{Neighbours65}
 \end{figure}
 
-For most plots of the selected sample that we were able to analyse by this approach division into communities done by fast-greedy algorithm looks like that generally makes sense. 
+For most plots of the selected sample that we were able to analyse by this approach, division into communities done by fast-greedy algorithm looks like it generally makes sense. 
 
 \subsection{Neighbours in different community}
 In this approach we have been looking for the neighbours of each vertex that are not in the same category as the selected vertex. We will look at some examples here, all results can be found in the file \textit{WikiNeighbours.txt} attached to this document.
 
-As with the previous ones, also with this approach we can find situations when division into communities done by fast-greedy algorithm on this data does not get best results. For example, the title \textit{120 (number)} have the neighbour \textit{119 (number)} which is in the different community. This is probably not the result we have expected. But there may be some criteria, which may not be clear just after doing that simple inspection of results, for which keeping these titles in different communities makes sense (for example because of less edges between odd and even numbers). We also cannot assume that the communities are at the same level of generality or specificity when looking at the titles within one community. For example for one community the thing that have all titles in common can by \textit{biology} without possibility to make it more specific, for another it can be \textit{positive numbers divisible by 6}. A lot also depends on the way the links between Wikipedia articles are being made. This process is not uniform for all articles, just because of the way Wikipedia is being made. The same article edited by different people can result, among the other, in different links between articles.
+As with the previous ones, also with this approach we can find situations when division into communities done by fast-greedy algorithm on this data does not get the best results. For example, the title \textit{120 (number)} has the neighbour \textit{119 (number)} which is in a different community. This is probably not the result we had expected. However there may be some criteria, which may not be clear just after doing that simple inspection of results, for which keeping these titles in different communities makes sense (for example because of less edges between odd and even numbers). We also cannot assume that the communities are at the same level of generality or specificity when looking at the titles within one community. For example for one community the thing that have all titles in common can be \textit{biology} without possibility to make it more specific, for another it can be \textit{positive numbers divisible by 6}. A lot also depends on the way the links between Wikipedia articles are being made. This process is not uniform for all articles, just because of the way Wikipedia is being made. The same article edited by different people can result, among other, in different links between articles.
 
-But for the most of the articles we picked to analyse the neighbours in different communities makes sense. For example titles \textit{64 (number)} and \textit{Lowrider} definitely should not be in one category which fast-greedy algorithm recognized well. The question is if the reader of the article about lowriders is interested in knowing more about number 64. 
+But for most of the articles we picked, the analysed neighbours in different communities make sense. For example titles \textit{64 (number)} and \textit{Lowrider} definitely should not be in one category which fast-greedy algorithm recognised well. A question you could ask is if the reader of the article about lowriders is interested in knowing more about the number 64. 
 
 \subsection{Conclusion}
-We have shown that the community detection of this dataset done by fast-greedy algorithm is probably not ideal but generally makes sense. For example it could be used when writing new article to give suggestions for categories to which article belongs (categories can be found down at the end of each article).
+We have shown that the community detection of this dataset done by fast-greedy algorithm is probably not ideal, but generally makes sense. For example, it could be used when writing new article to give suggestions for categories to which article belongs (categories can be found down at the end of each article).
 
-We have also discussed some problems with this community detection method on this data. One of them is that process of writing and editing articles at Wikipedia is not uniform and depends by the person that write the article and make connections between articles. Currently the Wikipedia have approximately 50 policies and uses bots to do automated editing of articles\footnote{https://en.wikipedia.org/wiki/Wikipedia}. Therefore there is effort to make the articles in the similar way.
+We have also discussed some problems with this community detection method on this data. One of them is that process of writing and editing articles at Wikipedia is not uniform and depends by the person that write the article and make connections between articles. Currently Wikipedia has approximately 50 policies and uses bots to do automated editing of articles\footnote{https://en.wikipedia.org/wiki/Wikipedia}. Therefore there is an effort to make the articles in the similar way.
 
-The next fact is that we do not have information when this network have been made, but some links between articles currently cannot be found (for example link to number 64 in the article about lowriders mentioned before). It could be interesting to make same network with the current state of Wikipedia and compare the results.
+The next fact is that we do not have information when these networks have been made, but some links between articles currently cannot be found (for example link to number 64 in the article about lowriders mentioned before). It could be interesting to make same network with the current state of Wikipedia and compare the results.
 
 \section{Appendix}
 
