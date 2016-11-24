@@ -278,7 +278,14 @@ For more information on the chosen graphs, see section \ref{meth}.
 
 
 \subsection{Methods}\label{meth}
-\subsection{Graphs}
+\subsubsection{Metrics}
+Here we will discuss why we want a high value for some metrics, and a low value for others.
+\paragraph{Triangle partition ratio} This metric measures the number of nodes in a community belonging to a triangle. The higher this number is, the more vertices belong to triangles, and generally the more connected a community is. So for good communities we want this high.
+\paragraph{Expansion} Measures the number of edges leaving the cluster per node. So if this number is high, there are a lot of connections from this community to other communities. However we prefer if the communities are very clear and thus that there are almost no edges going out. So we want this number low.
+\paragraph{Conductance} This metric measures the fraction of total edge volume that points outside the cluster. If more edges go out, this number will increase and if there are less internal edges this number will increase as well. So we want the conductance to be low.
+\paragraph{Modularity} Measures the difference between the number of internal edges in a community and a community with the same degree sequence. The higher this number, the more internal edges it has, compared to a random model. So we want modularity to be high.
+
+\subsubsection{Graphs}
 We chose 5 different graphs. As a real network we chose Zachary's karate (ZK) network. We also analysed a Barab\'{a}si-Albert (BA) graph on $40$ vertices.
 Furthermore we considered $3$ special graphs:
 \paragraph{HanoiTower(5,2) (HT)}
